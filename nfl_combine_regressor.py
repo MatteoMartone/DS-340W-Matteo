@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
-
-%pip install pandas
+# regression
+# installs and imports 
 
 import pandas as pd
 import numpy as np
@@ -28,7 +27,7 @@ class nflCombineRegressor:
         snaps_cum_2017 = pd.Series(dtype = float)
 
     def read_in(self,path): 
-        self.pd_2013 = pd.read_excel('/nfl_combine/NFL 2013_edit.xlsx')
+        self.pd_2013 = pd.read_excel('NFL.xlsx')
         self.pd_2014 = pd.read_excel('nfl_combine/NFL 2014_edit.xlsx')
         self.pd_2015 = pd.read_excel('NFL 2015_edit.xlsx')
         #self.pd_2016 = pd.read_excel('nfl_combine/NFL 2016_edit.xlsx')
