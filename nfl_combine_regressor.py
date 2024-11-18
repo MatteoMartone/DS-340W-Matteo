@@ -1,10 +1,12 @@
 # regression 
 # installs and imports 
 
-import pandas as pd
+
+import pandas as pd 
 import numpy as np
+import holoviews
 pd.options.plotting.backend = 'holoviews'
-import hvplot
+import hvplot 
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
@@ -23,14 +25,14 @@ class nflCombineRegressor:
         snaps_cum_2013 = pd.Series(dtype = float)
         snaps_cum_2014 = pd.Series(dtype = float)
         snaps_cum_2015 = pd.Series(dtype = float)
-        #snaps_cum_2016 = pd.Series(dtype = float)
+        snaps_cum_2016 = pd.Series(dtype = float)
         snaps_cum_2017 = pd.Series(dtype = float)
 
     def read_in(self,path): 
         self.pd_2013 = pd.read_excel('NFL_2013_edit.xlsx')
         self.pd_2014 = pd.read_excel('NFL_2014_edit.xlsx')
         self.pd_2015 = pd.read_excel('NFL_2015_edit.xlsx')
-        #self.pd_2016 = pd.read_excel('NFL_2016_edit.xlsx')
+        self.pd_2016 = pd.read_excel('NFL_2016_edit.xlsx')
         self.pd_2017 = pd.read_excel('NFL_2017_edit.xlsx')
         
         self.snaps_2013 = pd.read_excel("NFL_2013_edit.xlsx",
@@ -39,8 +41,8 @@ class nflCombineRegressor:
                                        sheet_name="Snaps")
         self.snaps_2015 = pd.read_excel("NFL_2015_edit.xlsx",
                                        sheet_name="Snaps")
-        #self.snaps_2016 = pd.read_excel("NFL-2016_edit.xlsx",
-         #                              sheet_name="Snaps")
+        self.snaps_2016 = pd.read_excel("NFL_2016_edit.xlsx",
+                                       sheet_name="Snaps")
         self.snaps_2017 = pd.read_excel("NFL_2017_edit.xlsx",
                                        sheet_name="Snaps")
 
@@ -52,32 +54,32 @@ class nflCombineRegressor:
         self.snaps_cum_2013 = self.snaps_2013.sum(axis = 1)
         self.snaps_cum_2014 = self.snaps_2014.sum(axis = 1)
         self.snaps_cum_2015 = self.snaps_2015.sum(axis = 1)
-        #self.snaps_cum_2016 = self.snaps_2016.sum(axis = 1)
+        self.snaps_cum_2016 = self.snaps_2016.sum(axis = 1)
         self.snaps_cum_2017 = self.snaps_2017.sum(axis = 1)
         
         print(len(self.snaps_cum_2013), "Samples started with - 2013")
         print(len(self.snaps_cum_2014), "Samples started with - 2014")
         print(len(self.snaps_cum_2015), "Samples started with - 2015")
-        #print(len(self.snaps_cum_2016), "Samples started with - 2016")
+        print(len(self.snaps_cum_2016), "Samples started with - 2016")
         print(len(self.snaps_cum_2017), "Samples started with - 2017")
     
     def split_test(self):
         index_nonzero_13 = self.snaps_cum_2013[self.snaps_cum_2013 !=0 ].index.tolist()
         index_nonzero_14 = self.snaps_cum_2014[self.snaps_cum_2014 !=0 ].index.tolist()
         index_nonzero_15 = self.snaps_cum_2015[self.snaps_cum_2015 !=0 ].index.tolist()
-        #index_nonzero_16 = self.snaps_cum_2016[self.snaps_cum_2016 !=0 ].index.tolist()
+        index_nonzero_16 = self.snaps_cum_2016[self.snaps_cum_2016 !=0 ].index.tolist()
         index_nonzero_17 = self.snaps_cum_2017[self.snaps_cum_2017 !=0 ].index.tolist()
 
         snaps_parse_13 = self.snaps_cum_2013.iloc[index_nonzero_13]
         snaps_parse_14 = self.snaps_cum_2014.iloc[index_nonzero_14]
         snaps_parse_15 = self.snaps_cum_2015.iloc[index_nonzero_15]
-        #snaps_parse_16 = self.snaps_cum_2016.iloc[index_nonzero_16]
+        snaps_parse_16 = self.snaps_cum_2016.iloc[index_nonzero_16]
         snaps_parse_17 = self.snaps_cum_2017.iloc[index_nonzero_17]
         
         pd_2013_nozero = self.pd_2013.iloc[index_nonzero_13,:]
         pd_2014_nozero = self.pd_2014.iloc[index_nonzero_14,:]
         pd_2015_nozero = self.pd_2015.iloc[index_nonzero_15,:]
-        #pd_2016_nozero = self.pd_2016.iloc[index_nonzero_16,:]
+        pd_2016_nozero = self.pd_2016.iloc[index_nonzero_16,:]
         pd_2017_nozero = self.pd_2017.iloc[index_nonzero_17,:]
         
         cols =['40yd','Vertical','BP','Broad Jump',
@@ -89,39 +91,39 @@ class nflCombineRegressor:
                           'Shuttle','3Cone']]
         x_data_15_ = pd_2015_nozero[['40yd','Vertical','BP','Broad Jump',
                           'Shuttle','3Cone']]
-        #x_data_16_ = pd_2016_nozero[['40yd','Vertical','BP','Broad Jump',
-                          #'Shuttle','3Cone']]
+        x_data_16_ = pd_2016_nozero[['40yd','Vertical','BP','Broad Jump',
+                          'Shuttle','3Cone']]
         x_data_17_ = pd_2017_nozero[['40yd','Vertical','BP','Broad Jump',
                           'Shuttle','3Cone']]
         index_nan_13 = x_data_13_.dropna().index.tolist()
         index_nan_14 = x_data_14_.dropna().index.tolist()
         index_nan_15 = x_data_15_.dropna().index.tolist()
-        #index_nan_16 = x_data_16_.dropna().index.tolist()
+        index_nan_16 = x_data_16_.dropna().index.tolist()
         index_nan_17 = x_data_17_.dropna().index.tolist()
     
         x_data_13_nonan = x_data_13_.loc[index_nan_13]
         x_data_14_nonan = x_data_14_.loc[index_nan_14]
         x_data_15_nonan = x_data_15_.loc[index_nan_15]
-        #x_data_16_nonan = x_data_16_.loc[index_nan_16]
+        x_data_16_nonan = x_data_16_.loc[index_nan_16]
         x_data_17_nonan = x_data_17_.loc[index_nan_17]
         
         y_data_13_nonan = snaps_parse_13.loc[index_nan_13]
         y_data_14_nonan = snaps_parse_14.loc[index_nan_14]
         y_data_15_nonan = snaps_parse_15.loc[index_nan_15]
-        #y_data_16_nonan = snaps_parse_16.loc[index_nan_16]
+        y_data_16_nonan = snaps_parse_16.loc[index_nan_16]
         y_data_17_nonan = snaps_parse_17.loc[index_nan_17]
 
         scaler = StandardScaler()
         x_data_13 = scaler.fit_transform(x_data_13_nonan)
         x_data_14 = scaler.fit_transform(x_data_14_nonan) 
         x_data_15 = scaler.fit_transform(x_data_15_nonan)
-        #x_data_16 = scaler.fit_transform(x_data_16_nonan)
+        x_data_16 = scaler.fit_transform(x_data_16_nonan)
         x_data_17 = scaler.fit_transform(x_data_17_nonan)
         
         df_13 = pd.DataFrame(x_data_13, columns = cols)
         df_14 = pd.DataFrame(x_data_14, columns = cols)
         df_15 = pd.DataFrame(x_data_15, columns = cols)
-        #df_16 = pd.DataFrame(x_data_16, columns = cols)
+        df_16 = pd.DataFrame(x_data_16, columns = cols)
         df_17 = pd.DataFrame(x_data_17, columns = cols)
         
         x = pd.concat([df_13, df_14, df_15, df_17]) 
@@ -131,7 +133,7 @@ class nflCombineRegressor:
         print(len(x_data_13_nonan), "Samples started with - 2013")
         print(len(x_data_14_nonan), "Samples started with - 2014")
         print(len(x_data_15_nonan), "Samples started with - 2015")
-        #print(len(x_data_16_nonan), "Samples started with - 2016")
+        print(len(x_data_16_nonan), "Samples started with - 2016")
         print(len(x_data_17_nonan), "Samples started with - 2017")
 
         self.x_train,self.X_test,self.y_train,self.y_test = train_test_split(x,y)
@@ -156,7 +158,7 @@ class nflCombineRegressor:
         y_pred3 = self.model4.predict(self.X_test)
         y_pred4 = self.model5.predict(self.X_test)
         
-        #Calculate error
+        # Calculate error
         mse = mean_squared_error(self.y_test,y_pred,squared = False)
         mse1 = mean_squared_error(self.y_test,y_pred1,squared = False)
         mse2 = mean_squared_error(self.y_test,y_pred2,squared = False)
@@ -194,22 +196,7 @@ class nflCombineRegressor:
         
         
         
-if __name__ == '__main__':
-    start_time = time.time()
-    nfl = nflCombineRegressor()
-    nfl.read_in("")
-    nfl.cumulative_snaps()
-    nfl.split_test()
-    cols = ['Gradient_error', 'RFR_error', 'Linear_error','DT_error',
-             'SVM_error']
-    lst = []
-    for i in range(0,20):
-        save_list =  nfl.model_test()
-        lst.append(save_list)
-    error = pd.DataFrame(lst,columns=cols)
-    nfl.plot_feature_importance()
-    print("--- %s seconds ---" % (time.time() - start_time))
-    hvplot.show(error.plot())
+
     
 
 
