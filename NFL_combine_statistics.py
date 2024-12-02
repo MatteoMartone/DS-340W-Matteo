@@ -28,8 +28,11 @@ plt.ylabel("Accuracy", fontsize=14)
 plt.xticks(rotation=45)
 for i, v in enumerate(classification_results.values()):
     plt.text(i, v + 0.01, f"{v:.3f}", ha="center", fontsize=12)
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0.1, 1, 1])
+plt.figtext(0.5, 0.02, "Figure 1: Classification Accuracy", ha="center", fontsize=12)
 plt.show()
+
+
 
 # Regression RMSE Bar Plot
 plt.figure(figsize=(10, 6))
@@ -39,7 +42,8 @@ plt.ylabel("RMSE (Root Mean Squared Error)", fontsize=14)
 plt.xticks(rotation=45)
 for i, v in enumerate(regression_results.values()):
     plt.text(i, v + 30, f"{v:.1f}", ha="center", fontsize=12)
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0.1, 1, 1])
+plt.figtext(0.5, .02, "Figure 2: Regresson Accuracy", ha="center", fontsize=12)
 plt.show()
 
 file_paths = [
@@ -79,6 +83,8 @@ plt.title('Boxplot of NFL Combine Test Results')
 plt.ylabel('Scores')
 plt.xticks(rotation=45)
 plt.grid(True)
+plt.tight_layout(rect=[0, 0.1, 1, 1])
+plt.figtext(0.5, .02, "Figure 3: Boxplot of NFL Combine Results", ha="center", fontsize=12)
 plt.show()
 
 # Checking data types of the relevant columns
@@ -105,6 +111,8 @@ correlation_matrix = merged_data[['40yd', 'BP', 'Vertical', 'Broad Jump', 'Shutt
 plt.figure(figsize=(10, 8))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
 plt.title('Correlation Heatmap of Combine Test Results')
+plt.tight_layout(rect=[0, 0.1, 1, 1])
+plt.figtext(0.5, .02, "Figure 4: Correlation Heatmap of Combine Test Results", ha="center", fontsize=12)
 plt.show()
 
 # Second graph: Position comparison for average scores across all tests
@@ -118,7 +126,8 @@ plt.ylabel('Average Score')
 plt.legend(title="Tests", loc='upper right', bbox_to_anchor=(1.15, 1))
 plt.xticks(rotation=45)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0.1, 1, 1])
+plt.figtext(0.5, .02, "Figure 5: Comparison of Average Combine Scores by Position", ha="center", fontsize=12)
 plt.show()
 
 
