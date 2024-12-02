@@ -112,7 +112,7 @@ plt.figure(figsize=(10, 8))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
 plt.title('Correlation Heatmap of Combine Test Results')
 plt.tight_layout(rect=[0, 0.1, 1, 1])
-plt.figtext(0.5, .02, "Figure 4: Correlation Heatmap of Combine Test Results", ha="center", fontsize=12)
+plt.figtext(0.5, .02, "Figure 3: Correlation Heatmap of Combine Test Results", ha="center", fontsize=12)
 plt.show()
 
 # Second graph: Position comparison for average scores across all tests
@@ -127,7 +127,7 @@ plt.legend(title="Tests", loc='upper right', bbox_to_anchor=(1.15, 1))
 plt.xticks(rotation=45)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout(rect=[0, 0.1, 1, 1])
-plt.figtext(0.5, .02, "Figure 5: Comparison of Average Combine Scores by Position", ha="center", fontsize=12)
+plt.figtext(0.5, .02, "Figure 4: Comparison of Average Combine Scores by Position", ha="center", fontsize=12)
 plt.show()
 
 
